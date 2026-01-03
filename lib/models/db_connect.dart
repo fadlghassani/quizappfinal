@@ -3,9 +3,8 @@ import 'package:http/http.dart' as http;
 import 'question_model.dart';
 
 class DBconnect {
-  
   static const String _url =
-      'https://thinkglobal.gt.tc/quiz_api/get_questions.php?i=1';
+      'https://quizappfinal.onrender.com/get_questions.php';
 
   Future<List<Question>> fetchQuestions() async {
     try {
@@ -13,9 +12,7 @@ class DBconnect {
 
       final response = await http.get(
         uri,
-        headers: {
-          'Accept': 'application/json',
-        },
+        headers: {'Accept': 'application/json'},
       );
 
       print('STATUS CODE: ${response.statusCode}');
@@ -23,9 +20,7 @@ class DBconnect {
 
       if (response.statusCode == 200) {
         final List decoded = jsonDecode(response.body);
-        return decoded
-            .map<Question>((q) => Question.fromJson(q))
-            .toList();
+        return decoded.map<Question>((q) => Question.fromJson(q)).toList();
       } else {
         throw Exception('Server error: ${response.statusCode}');
       }
