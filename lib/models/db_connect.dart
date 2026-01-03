@@ -15,19 +15,36 @@ class DBconnect {
         },
       );
 
-      
+      // 🔹 Print the raw response for debugging
+      print('Raw response: ${response.body}');
+
+      // 🔹 Check if the server returned a successful status
+      if (response.statusCode != 200) {
+        print('Server returned error: ${response.statusCode}');
+        return [];
+      }
 
       final body = response.body.trim();
 
-     
+      // 🔹 Find the first '[' character to locate the questions array
+      final startIndex = body.indexOf('[');
+      if (startIndex == -1) {
+        print('No question array found in response');
+        return [];
+      }
 
-      final List<dynamic> decoded = jsonDecode(body);
+      // 🔹 Extract the JSON array string only
+      final jsonArrayString = body.substring(startIndex);
 
+      // 🔹 Decode the array into a dynamic list
+      final List<dynamic> decoded = jsonDecode(jsonArrayString);
+
+      // 🔹 Convert each JSON object into a Question instance
       return decoded
           .map((q) => Question.fromJson(q as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      // 🔴 DO NOT rethrow
+      // 🔹 Catch any errors to avoid crashing the app
       print('Fetch questions error: $e');
       return [];
     }
