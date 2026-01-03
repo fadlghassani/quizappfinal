@@ -1,5 +1,5 @@
 <?php
-include "db.php";
+include "index.php";
 
 $sql = "SELECT * FROM questions";
 $result = $conn->query($sql);
