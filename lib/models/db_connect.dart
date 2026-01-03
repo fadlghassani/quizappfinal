@@ -24,14 +24,17 @@ class DBconnect {
 
       final body = response.body.trim();
 
-      // ✅ IMPORTANT CHANGE IS HERE
+      // 🔑 Extract ONLY the JSON array
       final startIndex = body.lastIndexOf('[');
-      if (startIndex == -1) {
-        print('No question array found in response');
+      final endIndex = body.lastIndexOf(']');
+
+      if (startIndex == -1 || endIndex == -1 || endIndex < startIndex) {
+        print('No valid question array found');
         return [];
       }
 
-      final jsonArrayString = body.substring(startIndex);
+      final jsonArrayString =
+          body.substring(startIndex, endIndex + 1);
 
       final List decoded = jsonDecode(jsonArrayString);
 
