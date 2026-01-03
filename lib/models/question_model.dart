@@ -11,11 +11,13 @@ class Question {
 
   factory Question.fromJson(Map<String, dynamic> json) {
     final Map<String, bool> parsedOptions = {};
+
     if (json['options'] != null) {
       json['options'].forEach((key, value) {
         parsedOptions[key.toString()] = value == true;
       });
     }
+
     return Question(
       id: json['id'].toString(),
       title: json['title'] ?? '',
