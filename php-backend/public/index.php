@@ -40,4 +40,3 @@ try {
         "details" => $e->getMessage()
     ]);
 }
-
