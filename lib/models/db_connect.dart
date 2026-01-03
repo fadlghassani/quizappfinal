@@ -18,21 +18,23 @@ class DBconnect {
 
       final body = response.body;
 
-      // 🔴 DEBUG (keep for now)
+      // 🔹 Debug output
       print('RAW >>> ${body.replaceAll('\n', '\\n')}');
 
-      // ✅ Regex: extract LAST JSON array safely
-      final match = RegExp(r'\[[\s\S]*\]').allMatches(body).lastOrNull;
-
-      if (match == null) {
+      // 🔹 Find all JSON arrays in the response
+      final matches = RegExp(r'\[[\s\S]*\]').allMatches(body);
+      if (matches.isEmpty) {
         print('No JSON array found');
         return [];
       }
 
-      final cleanJson = match.group(0)!;
+      // 🔹 Take the last array (most likely the questions)
+      final cleanJson = matches.last.group(0)!;
 
+      // 🔹 Decode into List
       final List decoded = jsonDecode(cleanJson);
 
+      // 🔹 Convert into Question objects
       return decoded
           .map((e) => Question.fromJson(e as Map<String, dynamic>))
           .toList();
