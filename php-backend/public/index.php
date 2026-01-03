@@ -4,10 +4,10 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET, POST");
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "localhost";
+$servername = "yamabiko.proxy.rlwy.net";
 $username = "root";
-$password = "";
-$database = "solooo";
+$password = "NLaTdEnVSoZPUDPBnxbpzsGfcXtwYEmx";
+$database = "railway";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
