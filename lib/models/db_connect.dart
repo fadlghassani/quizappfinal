@@ -8,24 +8,28 @@ class DBconnect {
 
   Future<List<Question>> fetchQuestions() async {
     try {
-      final uri = Uri.parse(_url);
-
       final response = await http.get(
-        uri,
-        headers: {'Accept': 'application/json'},
+        Uri.parse(_url),
+        headers: const {
+          'Accept': 'application/json',
+        },
       );
 
-      print('STATUS CODE: ${response.statusCode}');
-      print('RESPONSE BODY: ${response.body}');
+      
 
-      if (response.statusCode == 200) {
-        final List decoded = jsonDecode(response.body);
-        return decoded.map<Question>((q) => Question.fromJson(q)).toList();
-      } else {
-        throw Exception('Server error: ${response.statusCode}');
-      }
+      final body = response.body.trim();
+
+     
+
+      final List<dynamic> decoded = jsonDecode(body);
+
+      return decoded
+          .map((q) => Question.fromJson(q as Map<String, dynamic>))
+          .toList();
     } catch (e) {
-      throw Exception('Failed to fetch questions: $e');
+      // 🔴 DO NOT rethrow
+      print('Fetch questions error: $e');
+      return [];
     }
   }
 }
